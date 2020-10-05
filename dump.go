@@ -57,9 +57,9 @@ func RenderWithStyle(data []byte, s Style) (style string, html string) {
 		row.WriteString("|\n")
 		for k := 0; k < len(as)/2; k++ {
 			if k%2 == 0 {
-				fmt.Fprintf(&row, "<span class=\"xd-col-even\">%s</span>\n", strings.Join(as[k*2:(k+1)*2], ""))
+				fmt.Fprintf(&row, "<span class=\"xd-col-even\">%s</span>", strings.Join(as[k*2:(k+1)*2], ""))
 			} else {
-				fmt.Fprintf(&row, "<span class=\"xd-col-odd\">%s</span>\n", strings.Join(as[k*2:(k+1)*2], ""))
+				fmt.Fprintf(&row, "<span class=\"xd-col-odd\">%s</span>", strings.Join(as[k*2:(k+1)*2], ""))
 			}
 		}
 		fmt.Fprintln(&row, `</div>`)
