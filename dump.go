@@ -31,7 +31,7 @@ func RenderWithStyle(data []byte, s Style) (style string, html string) {
 		s.OddColor = "green"
 	}
 	if s.OffsetColor == "" {
-		s.OffsetColor = "black"
+		s.OffsetColor = "#727272"
 	}
 	width := 32
 	if s.Narrow {
@@ -41,7 +41,7 @@ func RenderWithStyle(data []byte, s Style) (style string, html string) {
 	var row strings.Builder
 	renderRow := func(off int, h, a []string) {
 		fmt.Fprintln(&row, `<div class="xd">`)
-		fmt.Fprintf(&row, "<span class=\"xd-offset\">%05d: </span>\n", off)
+		fmt.Fprintf(&row, "<div class=\"xd-offset\">%05d: </div>", off)
 		var hs, as []string
 		for k := 0; k < width/4; k++ {
 			hs = append(hs, fmt.Sprintf("%s ", strings.Join(h[k*4:(k+1)*4], "")))
@@ -49,17 +49,17 @@ func RenderWithStyle(data []byte, s Style) (style string, html string) {
 		}
 		for k := 0; k < len(hs)/2; k++ {
 			if k%2 == 0 {
-				fmt.Fprintf(&row, "<span class=\"xd-col-even\">%s</span>\n", strings.Join(hs[k*2:(k+1)*2], ""))
+				fmt.Fprintf(&row, "<div class=\"xd-col-even\">%s</div>", strings.Join(hs[k*2:(k+1)*2], ""))
 			} else {
-				fmt.Fprintf(&row, "<span class=\"xd-col-odd\">%s</span>\n", strings.Join(hs[k*2:(k+1)*2], ""))
+				fmt.Fprintf(&row, "<div class=\"xd-col-odd\">%s</div>", strings.Join(hs[k*2:(k+1)*2], ""))
 			}
 		}
 		row.WriteString("|\n")
 		for k := 0; k < len(as)/2; k++ {
 			if k%2 == 0 {
-				fmt.Fprintf(&row, "<span class=\"xd-col-even\">%s</span>", strings.Join(as[k*2:(k+1)*2], ""))
+				fmt.Fprintf(&row, "<div class=\"xd-col-even\">%s</div>", strings.Join(as[k*2:(k+1)*2], ""))
 			} else {
-				fmt.Fprintf(&row, "<span class=\"xd-col-odd\">%s</span>", strings.Join(as[k*2:(k+1)*2], ""))
+				fmt.Fprintf(&row, "<div class=\"xd-col-odd\">%s</div>", strings.Join(as[k*2:(k+1)*2], ""))
 			}
 		}
 		fmt.Fprintln(&row, `</div>`)
@@ -86,11 +86,11 @@ func RenderWithStyle(data []byte, s Style) (style string, html string) {
 		renderRow(i*width, hex[i*width:(i+1)*width], asc[i*width:(i+1)*width])
 	}
 	return fmt.Sprintf(`<style>
-    .xd {text-align: left;font-family: Courier New;font-size: %s}
-    .xd-asc {font-weight: 900}
-    .xd-hex {font-weight: 100}
-    .xd-col-even {color: %s;white-space: pre}
-    .xd-col-odd {color: %s;white-space: pre}
-    .xd-offset {color: %s;white-space: pre}
+    .xd {text-align: left;font-family:Courier New;font-size:%s}
+    .xd-asc {font-weight:900}
+    .xd-hex {font-weight:100}
+    .xd-col-even {display:inline-block;color:%s;white-space:pre}
+    .xd-col-odd {display:inline-block;color:%s;white-space:pre}
+    .xd-offset {display:inline-block;color:%s;white-space:pre}
 </style>`, s.FontSize, s.EvenColor, s.OddColor, s.OffsetColor), row.String()
 }
