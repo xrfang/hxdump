@@ -103,22 +103,24 @@ func Dump(data []byte) string {
 //DumpWithStyle dump data as pure text with given style
 func DumpWithStyle(data []byte, s Style) string {
 	width := 32
+	gap := 4
 	if s.Narrow {
 		width = 16
+		gap = 2
 	}
 	var hex, asc []string //分别保存hex序列和ascii序列
 	var row strings.Builder
 	renderRow := func(off int, h, a []string) {
 		fmt.Fprintf(&row, "%05d: ", off)
 		var hs, as []string
-		for k := 0; k < width/4; k++ {
-			hs = append(hs, fmt.Sprintf("%s ", strings.Join(h[k*4:(k+1)*4], "")))
-			as = append(as, strings.Join(a[k*4:(k+1)*4], ""))
+		for k := 0; k < width/gap; k++ {
+			hs = append(hs, fmt.Sprintf("%s ", strings.Join(h[k*gap:(k+1)*gap], "")))
+			as = append(as, strings.Join(a[k*gap:(k+1)*gap], ""))
 		}
 		for k := 0; k < len(hs); k++ {
 			fmt.Fprint(&row, hs[k])
 		}
-		row.WriteString(" | ")
+		row.WriteString("| ")
 		for k := 0; k < len(as); k++ {
 			fmt.Fprint(&row, as[k])
 		}
